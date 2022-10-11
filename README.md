@@ -9,7 +9,10 @@ After installing Telegram, I opened the app and search for "botfather". Here I t
 ![Newbot](images/newbot.png)
 
 ## 2. Get your Telegram user ID. :raising_hand:
-Then I had to get my Telegram user ID, so that the bot knows what messages are coming from my account. The manual I was following (https://www.electrorules.com/telegram-control-esp32-esp8266-output) told me to search for IDBot and type **/getid** to get my user ID. I couldn't find 'IDBot' but I did see a channel called 'ID Bot news', where there was a pinned message talking about @usernametoidbot. Clicking this link finally send me to a chat with ID Bot, where it immediately gave me my user id after pressing Start.
+Then I had to get my Telegram user ID, so that the bot knows what messages are coming from my account. The manual I was following (https://www.electrorules.com/telegram-control-esp32-esp8266-output) told me to search for IDBot and type **/getid** to get my user ID. 
+
+### Error :triangular_flag_on_post:
+I couldn't find 'IDBot' but I did see a channel called 'ID Bot news', where there was a pinned message talking about @usernametoidbot. Clicking this link finally send me to a chat with ID Bot, where it immediately gave me my user id after pressing Start.
 
 ![IDBot](images/idbot.png)
 ![IDBot2](images/idbot2.ng)
@@ -30,33 +33,9 @@ Before you upload the code to your board, check if the right board and port are 
 
 ![Bot](images/bot.png)
 
-### Error 1 :triangular_flag_on_post:
-But when I send **/led_on**, my LED stayed off. So I tried asking for the **/state**, and it replied that the state of the LED was ON, while I could clearly see that the LED was off. 
-To solve this I tried resetting my board but nothing changed. My serial monitor says that it's connected to wifi, but just to be sure I switched from 4G to 2G and then 5G, which didn't work. I also dubble checked if my bot token en user id were correct and they were.
+The code works! :tada:
 
-What exactly happens in the code when I send **/led_on**? The state is changed but not the LED itself, why? 
-
-```
-if (text == "/led_on") {
-      bot.sendMessage(chat_id, "LED state set to ON", "");
-      ledState = HIGH;
-      digitalWrite(ledPin, ledState);
-}
-```
-
-At line 33, ledPin was defined as 2 and the ledState was defined as LOW. I think that means that the default value for the LED, when you start running the code, is for it to be off. And the ledPin we're controlling is GPIO 2, the build-in esp8266 LED. That all makes sense.
-
-So then I looked up some other manuals to see if they've done anything different. A manual by Random Nerd Tutorials (https://randomnerdtutorials.com/telegram-group-esp32-esp8266) shows you a big, orange warning sign telling you to NOT install the Universal Telegram Bot Library through the Arduino Library Manager, because it may be a deprecated version:
-
-![Lib](images/lib.png)
-
-Oops. I downloaded the zip of the library from https://www.arduinolibraries.info/libraries/universal-telegram-bot and included it in my Arduino sketch like so:
-
-![Zip](images/zip.png)
-
-Now the code works! :tada:
-
-### Error 2 :triangular_flag_on_post:
+### Error :triangular_flag_on_post:
 Now the blue led on the board turns on and off, BUT when is says ON it's actually OFF and vice versa. Why does this happen?
 The ElectroRules manual says this:
 > "The on-board LED should turn on and turn off accordingly (the ESP8266 on-board LED works in reverse, it’s off when you send /led_on and on when you send /led_off)."
@@ -67,5 +46,4 @@ So, I should send a LOW signal to turn the LED on and a HIGH signal to turn it o
 
 ## Sources :card_file_box:
 - https://www.electrorules.com/telegram-control-esp32-esp8266-output
-- https://randomnerdtutorials.com/telegram-group-esp32-esp8266
 - https://www.arduinolibraries.info/libraries/universal-telegram-bot
