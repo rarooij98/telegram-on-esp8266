@@ -1,4 +1,4 @@
-# :bulb: Telegram on esp8266
+# :bulb: Controlling leds with Telegram
 I used Telegram to control an esp8266 LED, I did this by creating a Telegram bot and using the Universal Telegram Bot Library to interact with my bot through Arduino.
 
 ### What do you need for this project?
