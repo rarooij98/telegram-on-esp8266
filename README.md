@@ -3,6 +3,7 @@ I used Telegram to control an esp8266 LED, I did this by creating a Telegram bot
 
 ### What do you need for this project?
 - NodeMCU esp8266 board
+- RGB LED strip
 - Install: Arduino IDE & Telegram app
 
 ## 1. Creating a Telegram Bot. :robot:
@@ -51,7 +52,66 @@ So, I should send a LOW signal to turn the LED on and a HIGH signal to turn it o
 
 <img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/lowhighbad.PNG" width=45% height=45%> <img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/lowhighgood.PNG" width=45% height=45%>
 
+## 6. RGB Ledstrip :rainbow:
+Then I tried if I could also control my RGB ledstrip. First I included the Adafruit library and defined the pin and the number of pixels:
+
+```
+#include "Adafruit_NeoPixel.h"
+#define PIN          D5
+#define NUM_PIXELS   14
+```
+
+Instead of defining LedState as LOW or HIGH when I write **/led_on**, I wrote these lines instead to turn on the ledstrip:
+
+```
+if (text == "/led_on") {
+  bot.sendMessage(chat_id, "LED state set to ON", "");
+  pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+  pixels.show();
+}
+```
+
+### Error :triangular_flag_on_post:
+Multiple things when wrong when I uploaded this code. 
+
+#### :rotating_light: Problem 1
+Only one of the leds turns on. How can I turn on more leds, or make them blink?
+
+<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/ledstrip1.jpeg" width=30% height=30%>
+
+It's because **i** is not defined. I have to loop through all of the leds in the ledstrip. So I wrote a loop inside of the if-statement that looks like this:
+
+```
+for(int i=0; i<NUM_PIXELS; i++) { // For each pixel...
+  pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+  pixels.show();   // Send the updated pixel colors to the hardware
+  delay(DELAYVAL); // Pause before next pass through loop
+}
+```
+Now when I turn the leds on, they all turn on one by one. 
+
+#### :rotating_light: Problem 2 
+The led only turns on, not off. 
+
+This is what I wrote to turn off the leds:
+```
+if (text == "/led_off") {
+  bot.sendMessage(chat_id, "LED state set to OFF", "");
+  pixels.clear();
+}
+```
+But appearently pixels.clear() didn't do anything. My solution was to make all pixels turn black (rgb(0,0,0,)) to get the same effect.
+
+#### :rotating_light: Problem 3 
+I tried to rewrite the **/state** statement too, but it's broken now. The **/state** of the led is always seen as ON and never OFF, when I write this;
+
+<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/false.PNG" width=40% height=40%>
+
+To fix this I read a some forum pages, like https://forum.arduino.cc/t/trying-to-check-if-a-neopixel-is-on-or-off/415587/8, and rewrote my if-statement using getPixelColor:
+
+<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/truebool.PNG" width=40% height=40%>
 
 ## Sources :card_file_box:
 - https://www.electrorules.com/telegram-control-esp32-esp8266-output
 - https://www.arduinolibraries.info/libraries/universal-telegram-bot
+- https://forum.arduino.cc/t/trying-to-check-if-a-neopixel-is-on-or-off/415587/8
