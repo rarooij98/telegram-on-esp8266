@@ -1,6 +1,10 @@
 # :bulb: Telegram on esp8266
 I used Telegram to control an esp8266 LED, I did this by creating a Telegram bot and using the Universal Telegram Bot Library to interact with my bot through Arduino.
 
+### What do you need for this project?
+- NodeMCU esp8266 board
+- Install: Arduino IDE & Telegram app
+
 ## 1. Creating a Telegram Bot. :robot:
 I followed a manual from ElectroRules (https://www.electrorules.com/telegram-control-esp32-esp8266-output), because it was one of the more recent ones I could find when Googeling 'telegram on esp8266', it was written on March 8, 2022.
 After installing Telegram, I opened the app and search for "botfather". Here I typed **/newbot** and gave my bot a name: Ledbot. After creating a bot you receive a message with your bot token.
