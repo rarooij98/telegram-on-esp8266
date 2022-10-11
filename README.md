@@ -5,8 +5,7 @@ I used Telegram to control an esp8266 LED, I did this by creating a Telegram bot
 I followed a manual from ElectroRules (https://www.electrorules.com/telegram-control-esp32-esp8266-output), because it was one of the more recent ones I could find when Googeling 'telegram on esp8266', it was written on March 8, 2022.
 After installing Telegram, I opened the app and search for "botfather". Here I typed **/newbot** and gave my bot a name: Ledbot. After creating a bot you receive a message with your bot token.
 
-![Botfather](images/botfather.png)
-![Newbot](images/newbot.png)
+<img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/Botfather.png" width=30% height=30%> <img src="https://github.com/rarooij98/telegram-on-esp8266/blob/main/images/Newbot.png" width=30% height=30%>
 
 ## 2. Get your Telegram user ID. :raising_hand:
 Then I had to get my Telegram user ID, so that the bot knows what messages are coming from my account. The manual I was following (https://www.electrorules.com/telegram-control-esp32-esp8266-output) told me to search for IDBot and type **/getid** to get my user ID. 
